@@ -10,5 +10,12 @@ body{
     position: absolute;
     left:60vmin;
     bottom: 50vmin;
+ 
 
+}
+
+#topBorder{
+    width: 100%;
+    background-color: aqua;
+  
 }

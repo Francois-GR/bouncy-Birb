@@ -3,8 +3,14 @@ let playerPos = 60;
 const SCREEN_TOP = window.screenTop;//in px
 let newPos;
 let player = document.getElementById('character');
+let topBorder = document.getElementById('topBorder');
 let pressed = false;
 let frameCounter = 0
+let gameStart = 0;
+const JUMP_HEIGHT = 12 
+
+
+
 
 
 function main(currentTime){
@@ -17,22 +23,31 @@ function main(currentTime){
 }
 
 window.addEventListener("keydown",() => {
-        newPos = playerPos + 16             
-        pressed = true;   
+        if(!gameStart){
+            window.requestAnimationFrame(main)
+            gameStart++
+        }
+
+        if(player.offsetTop > topBorder.offsetTop){
+        newPos = playerPos + JUMP_HEIGHT ;            
+        pressed = true;  
+        }
+        
+       
 })
 
-window.requestAnimationFrame(main)
+
 
 function update(){    
     if(playerPos > 0) {
         if(pressed == false){
             if(frameCounter%3 == 0 )
-            playerPos -= 1.5 
+            playerPos -= 1.5  
         }
     }
 
     if(pressed == true && newPos != playerPos){
-        playerPos += 2        
+        playerPos ++        
     }
     else{
         pressed = false
