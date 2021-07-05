@@ -1,14 +1,15 @@
+//remote = flappy
+import {update as updateObs} from './obstacles.js'
+
 let lastRenderTime = 0;
 let playerPos = 60;
-const SCREEN_TOP = window.screenTop;//in px
 let newPos;
 let player = document.getElementById('character');
 let topBorder = document.getElementById('topBorder');
 let pressed = false;
 let frameCounter = 0
 let gameStart = 0;
-const JUMP_HEIGHT = 12 
-
+const JUMP_HEIGHT = 12 ;
 
 
 
@@ -20,6 +21,8 @@ function main(currentTime){
    // if(delta < 1 ) return
     lastRenderTime = currentTime;
     update()
+   
+
 }
 
 window.addEventListener("keydown",() => {
@@ -39,6 +42,7 @@ window.addEventListener("keydown",() => {
 
 
 function update(){    
+    updateObs();
     if(playerPos > 0) {
         if(pressed == false){
             if(frameCounter%3 == 0 )

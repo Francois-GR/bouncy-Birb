@@ -1,5 +1,7 @@
 body{
     background-color: black;
+    
+    overflow: hidden;
   
 }
 
@@ -17,5 +19,13 @@ body{
 #topBorder{
     width: 100%;
     background-color: aqua;
-  
 }
+
+.Obstacle{
+    height: 30vmin;
+    width: 10vmin;
+    background-color: aqua;
+    position: absolute;  
+
+}
+
