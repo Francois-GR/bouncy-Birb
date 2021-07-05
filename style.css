@@ -22,10 +22,17 @@ body{
 }
 
 .Obstacle{
-    height: 30vmin;
+     height: 30vmin;
     width: 10vmin;
     background-color: aqua;
     position: absolute;  
 
 }
 
+.bottom{
+    height: 30vmin; 
+    width: 10vmin;
+    background-color: aqua;
+    position: absolute; 
+    bottom: 0;
+}
