@@ -2,7 +2,7 @@ body{
     background-color: black;
     
     overflow: hidden;
-    color: #fff;
+    color:#fff;
     font-size: x-large  ;
   
 }
@@ -33,10 +33,10 @@ body{
 .Obstacle{
      height: 30vmin;
     width: 10vmin;
-
+    margin: 0;
     position: absolute; 
-    border-left: solid 2px blue; 
-   border-bottom: solid 2px blue;
+    border-left: solid 2px red; 
+   border-bottom: solid 2px red;
    
     
 
@@ -45,7 +45,7 @@ body{
 .bottom{
     height: 30vmin; 
     width: 10vmin;
-   
+   margin: 0;
     position: absolute; 
     bottom: 0;
     border-left: solid 2px blue; 

@@ -10,7 +10,7 @@ let topBorder = document.getElementById('topBorder');
 let pressed = false;
 let frameCounter = 0
 let gameStart = 0;
-const JUMP_HEIGHT = 10 ;
+const JUMP_HEIGHT = 7 ;
 const Gravity = 1.5
 
 
