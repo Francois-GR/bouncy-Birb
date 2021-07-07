@@ -1,8 +1,8 @@
-import { player} from "./main.js";
+import { player, playerPos} from "./main.js";
 
 
 
-const MAX_HEIGHT = 40;
+const MAX_HEIGHT = 43;
 const MIN_HEIGHT = 20;
 let SPEED = 0.6
 
@@ -12,6 +12,7 @@ let obstacleCounter = 0;
 let obstacleCollector = []
 let score = 0;
 let continueCreation;
+export let gameOver = false;
 
 
 export function update(){   
@@ -19,7 +20,7 @@ export function update(){
     leftBorder.innerText = `Score: ${score} speed: ${SPEED}`
 
     
-    if(obstacleCounter<10 ){
+    if(obstacleCounter<30 ){
         let obstacle = create(); 
         draw(obstacle)
         obstacleCollector.push(obstacle)
@@ -29,7 +30,7 @@ export function update(){
     
     for (let i = 0; i < obstacleCollector.length; i++) {
         slideElement(obstacleCollector[i].top, obstacleCollector[i].bottom);
-         checkDeath(obstacleCollector[i])
+        checkDeath(obstacleCollector[i].top, obstacleCollector[i].bottom)
     }
     
 
@@ -39,9 +40,10 @@ export function update(){
         obstacleCollector.length = 0;
         obstacleCounter = 0
         score++
-        if(score%6 == 0 && SPEED<10){
-            SPEED = (SPEED>10)?10:SPEED+1;
+        if(score%6 == 0){
+            SPEED = (SPEED>5)?5:SPEED+1;
         }
+        console.clear()
 
 
     }      
@@ -82,12 +84,12 @@ function slideElement(topElement, bottomElement){
         obstacleCollector.shift();
     }
 
-    topElement.style.backgroundColor = 'blue'
+    //topElement.style.backgroundColor = 'blue'
     let pos = topElement.style.right.replace('vmin',''); //top obstacle
     let right = parseFloat(pos);  
     topElement.style.right = `${right+SPEED}vmin`  
    
-    bottomElement.style.backgroundColor = 'blue'
+    //bottomElement.style.backgroundColor = 'blue'
     pos = bottomElement.style.right.replace('vmin','');
     right = parseFloat(pos);  
     bottomElement.style.right = `${right+SPEED}vmin`;  //bottom obstacle
@@ -95,16 +97,31 @@ function slideElement(topElement, bottomElement){
 }
 
 
-function checkDeath(element){
+function checkDeath(topObstacle, bottomObstacle){
+
+  
+    let offsetRight = player.offsetLeft + player.offsetWidth;
+
+    let bottomHeight = bottomObstacle.style.height.replace('vmin','');
+    let bottom = parseFloat(bottomHeight);
+
+   let topHeight = topObstacle.getBoundingClientRect().bottom;
+   let playerTopBox =  player.getBoundingClientRect().top
+    console.log(playerTopBox, '\n', topHeight );
 
 
-    if(element.bottom.offsetTop <= player.offsetTop - player.offsetHeight){
+  
+    if(playerPos <= bottom  || playerTopBox<= topHeight){ 
 
-    
-    if(element.top.offsetLeft == player.offsetLeft+ player.offsetWidth || element.bottom.offsetLeft == player.offsetLeft+ player.offsetWidth){
-        alert('game over')
+        if(topObstacle.offsetLeft ==  offsetRight || bottomObstacle.offsetLeft == offsetRight){
+            gameOver = true
+        }
+    }   
+
+    if(playerPos <= 0){
+        gameOver = true
+       
     }
-}
 
 
 

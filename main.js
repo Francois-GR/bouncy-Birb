@@ -1,9 +1,8 @@
 //remote = flappy
-import {update as updateObs} from './obstacles.js'
+import {update as updateObs, gameOver} from './obstacles.js'
 
-let lastRenderTime = 0;
 
-let playerPos = 60;
+export let playerPos = 60;
 let newPos;
 export let player = document.getElementById('character');
 export let offsetRight = window.innerWidth - player.offsetLeft - player.offsetWidth
@@ -17,19 +16,21 @@ const Gravity = 1.5
 
 
 
-function main(currentTime){
+function main(){
    // const delta = (currentTime - lastRenderTime)/1000;
-    window.requestAnimationFrame(main);
-    frameCounter++
-   // if(delta < 1 ) return
-    lastRenderTime = currentTime;
-    update()
+   if(!gameOver){
+        window.requestAnimationFrame(main);
+        frameCounter++
+    // if(delta < 1 ) return
+        
+        update()
+   }
    
 
 }
 
 window.addEventListener("keydown",() => {
-        if(!gameStart){
+        if(!gameStart && !gameOver){
             window.requestAnimationFrame(main)
             gameStart++
         }

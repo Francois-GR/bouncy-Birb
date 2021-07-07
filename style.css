@@ -9,8 +9,8 @@ body{
 
 #character{
     background-color:#fff;
-    width: 50px;
-    height: 50px;
+    width: 5vmin;
+    height: 5vmin;
     position: absolute;
     left:60vmin;
     bottom: 50vmin;
@@ -34,7 +34,10 @@ body{
      height: 30vmin;
     width: 10vmin;
 
-    position: absolute;  
+    position: absolute; 
+    border-left: solid 2px blue; 
+   border-bottom: solid 2px blue;
+   
     
 
 }
@@ -45,5 +48,9 @@ body{
    
     position: absolute; 
     bottom: 0;
+    border-left: solid 2px blue; 
+    border-top: solid 2px blue
+   
+   
 }
 
