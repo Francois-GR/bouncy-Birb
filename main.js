@@ -2,14 +2,17 @@
 import {update as updateObs} from './obstacles.js'
 
 let lastRenderTime = 0;
+
 let playerPos = 60;
 let newPos;
-let player = document.getElementById('character');
+export let player = document.getElementById('character');
+export let offsetRight = window.innerWidth - player.offsetLeft - player.offsetWidth
 let topBorder = document.getElementById('topBorder');
 let pressed = false;
 let frameCounter = 0
 let gameStart = 0;
-const JUMP_HEIGHT = 12 ;
+const JUMP_HEIGHT = 10 ;
+const Gravity = 1.5
 
 
 
@@ -46,7 +49,7 @@ function update(){
     if(playerPos > 0) {
         if(pressed == false){
             if(frameCounter%3 == 0 )
-            playerPos -= 1.5  
+            playerPos -= Gravity  
         }
     }
 

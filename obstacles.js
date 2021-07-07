@@ -1,71 +1,115 @@
-let obstacleTracker = 0;
-let rail = document.getElementById('topBorder');
+import { player} from "./main.js";
+
+
+
 const MAX_HEIGHT = 40;
 const MIN_HEIGHT = 20;
-const MAX_OBSTACLES = 6
+let SPEED = 0.6
+
+let rail = document.getElementById('topBorder');
+let leftBorder = document.getElementById('leftBorder');
 let obstacleCounter = 0;
 let obstacleCollector = []
-const SPEED = 1
-const SPACE_BETWEEEN_OBSTACLE = 500;
+let score = 0;
+let continueCreation;
 
-export async function update(){
-   
-    if(obstacleCounter<MAX_OBSTACLES){
+
+export function update(){   
+    
+    leftBorder.innerText = `Score: ${score} speed: ${SPEED}`
+
+    
+    if(obstacleCounter<10 ){
         let obstacle = create(); 
         draw(obstacle)
         obstacleCollector.push(obstacle)
-        obstacleCounter++    
-        
+        obstacleCounter++         
     }
-    
-    for(let i = 0; i<obstacleCounter; i++){
-        obstacleTracker = i
-        slideElement(obstacleCollector)
-        await sleep(SPACE_BETWEEEN_OBSTACLE)
-        
-    }
-  
 
     
+    for (let i = 0; i < obstacleCollector.length; i++) {
+        slideElement(obstacleCollector[i].top, obstacleCollector[i].bottom);
+         checkDeath(obstacleCollector[i])
+    }
+    
 
+
+    continueCreation = !rail.hasChildNodes();
+    if(continueCreation){
+        obstacleCollector.length = 0;
+        obstacleCounter = 0
+        score++
+        if(score%6 == 0 && SPEED<10){
+            SPEED = (SPEED>10)?10:SPEED+1;
+        }
+
+
+    }      
+    
 }
  
-function create(){
-    let height = Math.floor(Math.random() * (MAX_HEIGHT - MIN_HEIGHT) + MIN_HEIGHT);
+ function create(){
+      
+    let topHeight = Math.floor(Math.random() * (MAX_HEIGHT - MIN_HEIGHT) + MIN_HEIGHT);
     let topObstacle = document.createElement('div');
     topObstacle.classList.add('Obstacle');
     topObstacle.style.right = '0vmin';
-    topObstacle.style.height = `${height}vmin`;
+    topObstacle.style.height = `${topHeight}vmin`;
      
+    let bottomHeight = Math.floor(Math.random() * (MAX_HEIGHT - MIN_HEIGHT) + MIN_HEIGHT);
     let bottomObstacle = document.createElement('div');
     bottomObstacle.classList.add('bottom');
     bottomObstacle.style.right = '0vmin';
-    bottomObstacle.style.height =`${height}vmin`
+    bottomObstacle.style.height =`${bottomHeight}vmin`
     
-    let Obstacles = [topObstacle, bottomObstacle]
+    let Obstacles = {'top':topObstacle, 'bottom' : bottomObstacle}
+    
+
+  
     return Obstacles
 }
 
 function draw(el){
-    rail.appendChild(el[0])
-    rail.appendChild(el[1]);
+    rail.appendChild(el.top)
+    rail.appendChild(el.bottom);
 }
 
-function slideElement(el){
+function slideElement(topElement, bottomElement){
 
-    let pos = el[obstacleTracker][0].style.right.replace('vmin','');
+    if(topElement.offsetLeft < leftBorder.offsetLeft){
+        topElement.remove();
+        bottomElement.remove();
+        obstacleCollector.shift();
+    }
+
+    topElement.style.backgroundColor = 'blue'
+    let pos = topElement.style.right.replace('vmin',''); //top obstacle
     let right = parseFloat(pos);  
-    el[obstacleTracker][0].style.right = `${right+SPEED}vmin`  
+    topElement.style.right = `${right+SPEED}vmin`  
    
-    pos = el[obstacleTracker][1].style.right.replace('vmin','');
+    bottomElement.style.backgroundColor = 'blue'
+    pos = bottomElement.style.right.replace('vmin','');
     right = parseFloat(pos);  
-    el[obstacleTracker][1].style.right = `${right+SPEED}vmin`  
-   
+    bottomElement.style.right = `${right+SPEED}vmin`;  //bottom obstacle
 
-   
 }
 
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
+function checkDeath(element){
+
+
+    if(element.bottom.offsetTop <= player.offsetTop - player.offsetHeight){
+
+    
+    if(element.top.offsetLeft == player.offsetLeft+ player.offsetWidth || element.bottom.offsetLeft == player.offsetLeft+ player.offsetWidth){
+        alert('game over')
+    }
 }
+
+
+
+
+}
+
+
+
