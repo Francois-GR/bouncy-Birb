@@ -20,7 +20,7 @@ export let gameOver = false;
 
 export  function update(){   
     
-    leftBorder.innerText = `Score: ${score} speed: ${SPEED}`
+    leftBorder.innerText = `Level: ${score} speed: ${SPEED+0.4}`
    
 
    
@@ -42,7 +42,7 @@ export  function update(){
        
        
 
-        checkDeath()
+        
         if(movingObs.length<1){
             movingObs.push(obstacleCollector[0])
         }
@@ -79,15 +79,10 @@ export  function update(){
         i=0
         movingObs.length=0
         score++
-        if(score%2 == 0){
-            SPEED = (SPEED>5)?5:SPEED+1;
-        }
-        if(currentColor == borderColor.length-1){
-            currentColor = 0;
-        }
-        else{
-            currentColor++
-        }
+        
+        SPEED = (SPEED>5)?5:SPEED+1;
+        
+       
     }      
     
 }
@@ -122,7 +117,7 @@ async function draw(el){
 
 function slideElement(topElement, bottomElement){
 
-   
+    checkDeath()
 
     if(topElement.offsetLeft < leftBorder.offsetLeft){
         topElement.remove();
@@ -134,16 +129,14 @@ function slideElement(topElement, bottomElement){
         
     }
     let backgroundColor = 'blue'
-    let color = borderColor[currentColor]
-    topElement.style.borderLeftColor = color
+  
    
     topElement.style.backgroundColor = backgroundColor
     let pos = topElement.style.right.replace('vmin',''); //top obstacle
     let right = parseFloat(pos);  
     topElement.style.right = `${right+SPEED}vmin`  
    
-    //bottomElement.style.borderLeftColor = color
-    //bottomElement.style.borderTopColor =  color
+    
     bottomElement.style.backgroundColor = backgroundColor
     pos = bottomElement.style.right.replace('vmin','');
     right = parseFloat(pos);  
@@ -157,33 +150,34 @@ function checkDeath(){
   
     let PlayeroffsetRight = Number(getComputedStyle(player).left.replace('px',''))+Number(getComputedStyle(player).width.replace('px',''))
     for(let i=0; i<movingObs.length; i++){
-      
+      if(movingObs[i]){
 
-        let bottomObstacle = movingObs[i].bottom;
-        let topObstacle = movingObs[i].top;
+            let bottomObstacle = movingObs[i].bottom;
+            let topObstacle = movingObs[i].top;
 
-        let bottomHeight = bottomObstacle.style.height.replace('vmin','');
-        let bottom = parseFloat(bottomHeight);
+            let bottomHeight = bottomObstacle.style.height.replace('vmin','');
+            let bottom = parseFloat(bottomHeight);
 
-  
+    
 
 
-        if(!topObstacle){
-            alert('nope')
-        }
+            if(!topObstacle){
+                alert('nope')
+            }
+                
+            if(!bottomObstacle){
+                alert('nope')
+            }
             
-        if(!bottomObstacle){
-            alert('nope')
-        }
-        
-        if(playerPos<=bottom){
-          
-            let ObsleftBorderPos = Number(getComputedStyle(bottomObstacle).left.replace('px',''))
-            if(!(ObsleftBorderPos<PlayeroffsetRight-Number(getComputedStyle(player).width.replace('px',''))) )          
-                if(ObsleftBorderPos<=PlayeroffsetRight ){
-                    gameOver=true
-                }
-        }
+            if(playerPos<=bottom){
+            
+                let ObsleftBorderPos = Number(getComputedStyle(bottomObstacle).left.replace('px',''))
+                if(!(ObsleftBorderPos<PlayeroffsetRight-Number(getComputedStyle(player).width.replace('px',''))) )          
+                    if(ObsleftBorderPos<=PlayeroffsetRight ){
+                        gameOver=true
+                    }
+            }
+    }
        
 }
 
