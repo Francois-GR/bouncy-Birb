@@ -68,13 +68,6 @@ export  function update(){
 
         }
 
-      
-                        
-       
-    
-   
-   
-    
 
     //reset
   
@@ -162,7 +155,7 @@ function slideElement(topElement, bottomElement){
 function checkDeath(){
 
   
-    let offsetRight = player.offsetLeft + player.offsetWidth; //get right side border of player
+    let PlayeroffsetRight = Number(getComputedStyle(player).left.replace('px',''))+Number(getComputedStyle(player).width.replace('px',''))
     for(let i=0; i<movingObs.length; i++){
       
 
@@ -172,8 +165,7 @@ function checkDeath(){
         let bottomHeight = bottomObstacle.style.height.replace('vmin','');
         let bottom = parseFloat(bottomHeight);
 
-        let topHeight = topObstacle.getBoundingClientRect().bottom; // determine obstacle position reletive to player postion
-        let playerTopBox =  player.getBoundingClientRect().top       // in y axis
+  
 
 
         if(!topObstacle){
@@ -183,14 +175,16 @@ function checkDeath(){
         if(!bottomObstacle){
             alert('nope')
         }
-
-        if(playerPos <= bottom ){ 
-
-                if(bottomObstacle.offsetLeft <=  offsetRight ){
-                    gameOver = true
-                    
+        
+        if(playerPos<=bottom){
+          
+            let ObsleftBorderPos = Number(getComputedStyle(bottomObstacle).left.replace('px',''))
+            if(!(ObsleftBorderPos<PlayeroffsetRight-Number(getComputedStyle(player).width.replace('px',''))) )          
+                if(ObsleftBorderPos<=PlayeroffsetRight ){
+                    gameOver=true
                 }
-            }   
+        }
+       
 }
 
     if(playerPos <= 0){

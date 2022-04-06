@@ -19,19 +19,12 @@ let lastRenderTime= 0
 
 
  function main(currentTime){
-    const delta = (currentTime - lastRenderTime)/1000;
 
    if(!gameOver){
         window.requestAnimationFrame(main);
         frameCounter++
-
-        
         update()
-        
-      
-        
    }
-   
 
 }
 
