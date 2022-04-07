@@ -1,5 +1,5 @@
 //remote = flappy
-import {update as updateObs, gameOver, SPEED} from './obstacles.js'
+import {update as updateObs, gameOver} from './obstacles.js'
 
 
 export let playerPos = 60;
@@ -10,15 +10,21 @@ let topBorder = document.getElementById('topBorder');
 let pressed = false;
 export let frameCounter = 0
 let gameStart = 0;
-const JUMP_HEIGHT = 7 ;
+export let obsPerLevel = 5
+const JUMP_HEIGHT = 12 ;
 export let movingObs = []
-const Gravity = 1.5
-let lastRenderTime= 0
+
+const Gravity = 2;
 
 
+document.getElementById('incObs').addEventListener('click',(e)=>{
+    obsPerLevel++
+  
+  
+})
+    
 
-
- function main(currentTime){
+function main(){
 
    if(!gameOver){
         window.requestAnimationFrame(main);
@@ -54,8 +60,10 @@ window.addEventListener("keydown",() => {
         }
     }
 
+    document.getElementById('incObs').blur()
+
     if(pressed == true && newPos != playerPos){
-        playerPos ++        
+        playerPos ++    
     }
     else{
         pressed = false

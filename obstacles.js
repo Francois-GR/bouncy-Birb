@@ -1,17 +1,19 @@
-import { frameCounter, movingObs, player, playerPos} from "./main.js";
+import { movingObs, obsPerLevel, player, playerPos} from "./main.js";
 
 
 
-const MAX_HEIGHT = 40;
-const MIN_HEIGHT = 10;
+const MAX_HEIGHT = 45;
+const MIN_HEIGHT = 18;
 export let SPEED = 0.6
+
 
 let rail = document.getElementById('topBorder');
 let leftBorder = document.getElementById('leftBorder');
 let obstacleCounter = 0;
 let obstacleCollector = []
-let score = 0;
+let score = 1;
 let continueCreation;
+
 let borderColor = ['green', 'red', 'yellow', 'purple', 'yellowgreen', 'aqua', 'beige','bisque', 'violet', 'blueviolet'];
 let currentColor = 0;
 
@@ -20,12 +22,10 @@ export let gameOver = false;
 
 export  function update(){   
     
-    leftBorder.innerText = `Level: ${score} speed: ${SPEED+0.4}`
-   
+    leftBorder.innerText = `Level: ${score} speed: ${SPEED} obstacles: ${obsPerLevel}`
 
-   
     //creation
-    if(obstacleCounter<30){
+    if(obstacleCounter<obsPerLevel){
         let obstacle = create(); 
         
         draw(obstacle)
@@ -34,33 +34,23 @@ export  function update(){
     }
     continueCreation = !rail.hasChildNodes()
 
-   
-
-    
-    
        //movement
-       
-       
 
-        
         if(movingObs.length<1){
             movingObs.push(obstacleCollector[0])
         }
         
         let i=0;
         while(i<movingObs.length) {
-            if(i>29){
+            if(i>obsPerLevel-1){
                 break;
             }
           slideElement(movingObs[i].top, movingObs[i].bottom)  
           i++;
-        
 
         }
 
-  
         let obsPos = Number(movingObs[i-1].top.style.right.replace('vmin',''));
-      
 
         if(obsPos>=100){
            
@@ -68,10 +58,8 @@ export  function update(){
 
         }
 
-
     //reset
-  
-        
+
     if(continueCreation){
         
         obstacleCollector.length = 0;
@@ -81,8 +69,7 @@ export  function update(){
         score++
         
         SPEED = (SPEED>5)?5:SPEED+1;
-        
-       
+  
     }      
     
 }
@@ -102,9 +89,7 @@ export  function update(){
     bottomObstacle.style.height =`${bottomHeight}vmin`
     
     let Obstacles = {'top':topObstacle, 'bottom' : bottomObstacle}
-    
 
-  
     return Obstacles
 }
 
@@ -112,7 +97,7 @@ async function draw(el){
     
     rail.appendChild(el.top)
     rail.appendChild(el.bottom);
-    
+
 }
 
 function slideElement(topElement, bottomElement){
@@ -124,9 +109,7 @@ function slideElement(topElement, bottomElement){
         bottomElement.remove();
         continueCreation = !rail.hasChildNodes()
         return
-         
-         
-        
+
     }
     let backgroundColor = 'blue'
   
@@ -158,8 +141,8 @@ function checkDeath(){
             let bottomHeight = bottomObstacle.style.height.replace('vmin','');
             let bottom = parseFloat(bottomHeight);
 
-    
-
+            let topHeight = topObstacle.style.height.replace('vmin','');
+            let top = parseFloat(topHeight)
 
             if(!topObstacle){
                 alert('nope')
@@ -168,12 +151,24 @@ function checkDeath(){
             if(!bottomObstacle){
                 alert('nope')
             }
-            
+
+            //top obstacle check
+           let playerBottom = Number(getComputedStyle(player).bottom.replace('px',''))
+           let topObsBottom = Number(getComputedStyle(topObstacle).bottom.replace('px',''))
+           if(playerBottom>=topObsBottom){
+            let tObsleftBorderPos = Number(getComputedStyle(topObstacle).left.replace('px',''))
+            if(!(tObsleftBorderPos<PlayeroffsetRight-Number(getComputedStyle(player).width.replace('px',''))) )          
+                if(tObsleftBorderPos<=PlayeroffsetRight ){
+                    gameOver=true
+                }
+           }
+   
+            //bottom obstacle check
             if(playerPos<=bottom){
             
-                let ObsleftBorderPos = Number(getComputedStyle(bottomObstacle).left.replace('px',''))
-                if(!(ObsleftBorderPos<PlayeroffsetRight-Number(getComputedStyle(player).width.replace('px',''))) )          
-                    if(ObsleftBorderPos<=PlayeroffsetRight ){
+                let bObsleftBorderPos = Number(getComputedStyle(bottomObstacle).left.replace('px',''))
+                if(!(bObsleftBorderPos<PlayeroffsetRight-Number(getComputedStyle(player).width.replace('px',''))) )          
+                    if(bObsleftBorderPos<=PlayeroffsetRight ){
                         gameOver=true
                     }
             }

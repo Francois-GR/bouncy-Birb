@@ -7,6 +7,22 @@ body{
   
 }
 
+.obsButton{
+    background-color: #222 ;
+    width: 12vmin;
+    height: 10vmin;
+    font-size: 0.7em;
+    border: 1px solid red;
+    position: absolute;
+    top: 40vmin;
+    color: blue;
+    font-weight: bold;
+
+
+}
+
+
+
 #character{
     background-color:#fff;
     width: 5vmin;
@@ -35,11 +51,6 @@ body{
     width: 10vmin;
     margin: 0;
     position: absolute; 
-  
-
-   
-    
-
 }
 
 .bottom{
@@ -47,10 +58,6 @@ body{
     width: 10vmin;
    margin: 0;
     position: absolute; 
-    bottom: 0;
-   
- 
-   
-   
+    bottom: 0;   
 }
 
