@@ -68,7 +68,7 @@ export  function update(){
         movingObs.length=0
         score++
         
-        SPEED = (SPEED>5)?5:SPEED+1;
+        SPEED = (SPEED>5)?5:SPEED+0.5;
   
     }      
     
